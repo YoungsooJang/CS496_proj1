@@ -1,10 +1,12 @@
 package com.example.q.cs496_proj1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -32,7 +34,7 @@ public class FragmentA extends Fragment {
         View view = inflater.inflate(R.layout.fragmenta, container, false);
 
         json = parseJSON();
-        List<Map<String,String>> contacts = new ArrayList<Map<String,String>>();
+        final List<Map<String,String>> contacts = new ArrayList<Map<String,String>>();
         try {
             JSONObject jsonResponse = new JSONObject(json);
             JSONArray jsonMainNode = jsonResponse.optJSONArray("contact");
@@ -66,12 +68,16 @@ public class FragmentA extends Fragment {
                         android.R.id.text2
                 });
         listView.setAdapter(simpleAdapter);
-        //listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        //    @Override
-        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //        Intent intent = new Intent()
-        //    }
-        //});
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), ContactDisplayActivity.class);
+                intent.putExtra("name", contacts.get(position).get("name"));
+                intent.putExtra("number", contacts.get(position).get("number"));
+                intent.putExtra("picture", getResources().getIdentifier(contacts.get(position).get("name").toLowerCase(), "drawable", getActivity().getApplicationContext().getPackageName()));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

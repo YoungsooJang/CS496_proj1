@@ -1,0 +1,36 @@
+package com.example.q.cs496_proj1;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class ContactDisplayActivity extends AppCompatActivity {
+    String name;
+    String number;
+    Integer picture;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.contactdisplay);
+
+        Intent intent = getIntent();
+        name = intent.getExtras().getString("name");
+        number = intent.getExtras().getString("number");
+        picture = intent.getExtras().getInt("picture");
+
+        TextView textView1 = (TextView)findViewById(R.id.textView1);
+        TextView textView2 = (TextView)findViewById(R.id.textView2);
+        ImageView imageView1 = (ImageView)findViewById(R.id.imageView1);
+
+        textView1.setText(name);
+        textView2.setText(number);
+        if(picture != 0) {
+            imageView1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView1.setImageResource(picture);
+        }
+    }
+}
