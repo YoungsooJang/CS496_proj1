@@ -44,8 +44,8 @@ public class GridViewAdapter extends BaseAdapter {
         ImageView image;
         if (convertView == null) {
             image = new ImageView(context);
-            final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130, this.context.getResources().getDisplayMetrics());
-            final int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 130, this.context.getResources().getDisplayMetrics());
+            final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 113, this.context.getResources().getDisplayMetrics());
+            final int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 113, this.context.getResources().getDisplayMetrics());
             image.setLayoutParams(new GridView.LayoutParams(width, height));
             image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
