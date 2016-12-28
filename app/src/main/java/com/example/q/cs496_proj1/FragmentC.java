@@ -40,10 +40,11 @@ public class FragmentC extends Fragment {
 
                 if (MainActivity.starredList.contains(Integer.valueOf((int) id))) {
                     MainActivity.starredList.remove(Integer.valueOf((int) id));
+                    Toast.makeText(getActivity(), "Removed!", Toast.LENGTH_SHORT).show();
                 } else {
                     MainActivity.starredList.add((int) id);
+                    Toast.makeText(getActivity(), "Starred!", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getActivity(), "starredList : " + MainActivity.starredList.toString(), Toast.LENGTH_SHORT).show();
 
                 return true;
             }

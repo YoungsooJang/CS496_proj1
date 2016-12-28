@@ -2,7 +2,6 @@ package com.example.q.cs496_proj1;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,41 +50,43 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            if (!starredList.isEmpty()) {
-                // Create Inbox box URI
-                Uri inboxURI = Uri.parse("content://sms/inbox");
+            if (position == 3) {
+                if (!starredList.isEmpty()) {
+                    // Create Inbox box URI
+                    Uri inboxURI = Uri.parse("content://sms/inbox");
 
-                // List required columns
-                String[] reqCols = new String[]{"_id", "address", "body"};
+                    // List required columns
+                    String[] reqCols = new String[]{"_id", "address", "body"};
 
-                // Get Content Resolver object, which will deal with Content Provider
-                ContentResolver cr = getContentResolver();
+                    // Get Content Resolver object, which will deal with Content Provider
+                    ContentResolver cr = getContentResolver();
 
-                String selection = "";
-                for (Integer id : MainActivity.starredList) {
-                    selection = selection + " or _id = " + id;
+                    String selection = "";
+                    for (Integer id : MainActivity.starredList) {
+                        selection = selection + " or _id = " + id;
+                    }
+                    selection = selection.substring(4);
+
+                    // Fetch Inbox SMS Message from Built-in Content Provider
+                    c = cr.query(inboxURI, reqCols, selection, null, null);
+                } else {
+                    c = null;
                 }
-                selection = selection.substring(4);
 
-                // Fetch Inbox SMS Message from Built-in Content Provider
-                c = cr.query(inboxURI, reqCols, selection, null, null);
-            } else {
-                c = null;
+                simpleCursorAdapter = new SimpleCursorAdapter(
+                        MainActivity.this,
+                        android.R.layout.simple_list_item_2,
+                        MainActivity.c,
+                        new String[]{
+                                "body",
+                                "address"
+                        },
+                        new int[]{
+                                android.R.id.text1,
+                                android.R.id.text2
+                        });
+                FragmentD.listView3.setAdapter(simpleCursorAdapter);
             }
-
-            simpleCursorAdapter = new SimpleCursorAdapter(
-                    MainActivity.this,
-                    android.R.layout.simple_list_item_2,
-                    MainActivity.c,
-                    new String[] {
-                            "body",
-                            "address"
-                    },
-                    new int[] {
-                            android.R.id.text1,
-                            android.R.id.text2
-                    });
-            FragmentD.listView3.setAdapter(simpleCursorAdapter);
         }
 
         @Override

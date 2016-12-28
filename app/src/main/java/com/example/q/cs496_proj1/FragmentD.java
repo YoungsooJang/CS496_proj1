@@ -2,11 +2,13 @@ package com.example.q.cs496_proj1;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,49 +39,71 @@ public class FragmentD extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+                final int itemId = (int) id;
+
                 if (MainActivity.starredList.contains(Integer.valueOf((int) id))) {
-                    MainActivity.starredList.remove(Integer.valueOf((int) id));
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-                    if (!MainActivity.starredList.isEmpty()) {
-                        // Create Inbox box URI
-                        Uri inboxURI = Uri.parse("content://sms/inbox");
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Remove from starred?")
+                            .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    MainActivity.starredList.remove(Integer.valueOf(itemId));
 
-                        // List required columns
-                        String[] reqCols = new String[]{"_id", "address", "body"};
+                                    if (!MainActivity.starredList.isEmpty()) {
+                                        // Create Inbox box URI
+                                        Uri inboxURI = Uri.parse("content://sms/inbox");
 
-                        // Get Content Resolver object, which will deal with Content Provider
-                        ContentResolver cr = getActivity().getContentResolver();
+                                        // List required columns
+                                        String[] reqCols = new String[]{"_id", "address", "body"};
 
-                        String selection = "";
-                        for (Integer id1 : MainActivity.starredList) {
-                            selection = selection + " or _id = " + id1;
-                        }
-                        selection = selection.substring(4);
-                        Log.d("selection", "********************************************" + selection);
+                                        // Get Content Resolver object, which will deal with Content Provider
+                                        ContentResolver cr = getActivity().getContentResolver();
 
-                        // Fetch Inbox SMS Message from Built-in Content Provider
-                        MainActivity.c = cr.query(inboxURI, reqCols, selection, null, null);
-                    } else {
-                        MainActivity.c = null;
-                    }
+                                        String selection = "";
+                                        for (Integer id1 : MainActivity.starredList) {
+                                            selection = selection + " or _id = " + id1;
+                                        }
+                                        selection = selection.substring(4);
 
-                    // Attached Cursor with adapter and display in listview
-                    MainActivity.simpleCursorAdapter = new SimpleCursorAdapter(
-                            getActivity(),
-                            android.R.layout.simple_list_item_2,
-                            MainActivity.c,
-                            new String[] {
-                                    "body",
-                                    "address"
-                            },
-                            new int[] {
-                                    android.R.id.text1,
-                                    android.R.id.text2
+                                        // Fetch Inbox SMS Message from Built-in Content Provider
+                                        MainActivity.c = cr.query(inboxURI, reqCols, selection, null, null);
+                                    } else {
+                                        MainActivity.c = null;
+                                    }
+
+                                    // Attached Cursor with adapter and display in listview
+                                    MainActivity.simpleCursorAdapter = new SimpleCursorAdapter(
+                                            getActivity(),
+                                            android.R.layout.simple_list_item_2,
+                                            MainActivity.c,
+                                            new String[]{
+                                                    "body",
+                                                    "address"
+                                            },
+                                            new int[]{
+                                                    android.R.id.text1,
+                                                    android.R.id.text2
+                                            });
+
+                                    listView3.setAdapter(MainActivity.simpleCursorAdapter);
+
+                                    Toast.makeText(getActivity(), "Removed!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
                             });
 
-                    listView3.setAdapter(MainActivity.simpleCursorAdapter);
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
                 }
-                Toast.makeText(getActivity(), "starredList : " + MainActivity.starredList.toString(), Toast.LENGTH_SHORT).show();
 
                 return true;
             }
@@ -112,7 +136,6 @@ public class FragmentD extends Fragment {
                 selection = selection + " or _id = " + id;
             }
             selection = selection.substring(4);
-            Log.d("selection", "********************************************" + selection);
 
             // Fetch Inbox SMS Message from Built-in Content Provider
             MainActivity.c = cr.query(inboxURI, reqCols, selection, null, null);
