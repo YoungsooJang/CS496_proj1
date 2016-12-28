@@ -21,5 +21,6 @@
         <activity android:name=".ContactDisplayActivity"></activity>
         <activity android:name=".ImageSliderActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
 
 </manifest>
