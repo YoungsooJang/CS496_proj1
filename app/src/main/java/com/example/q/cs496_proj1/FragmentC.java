@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class FragmentC extends Fragment {
     }
 
     private ListView listView2;
+    public View row;
 
     private static final int PERMISSIONS_REQUEST_READ_SMS = 100;
 
