@@ -3,6 +3,7 @@ package com.example.q.cs496_proj1;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentD extends Fragment {
@@ -34,6 +36,14 @@ public class FragmentD extends Fragment {
         listView3 = (ListView) view.findViewById(R.id.listView3);
 
         showMessages();
+
+        listView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String number = (String)(((TextView) view.findViewById(android.R.id.text2)).getText());
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + number)));
+            }
+        });
 
         listView3.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
