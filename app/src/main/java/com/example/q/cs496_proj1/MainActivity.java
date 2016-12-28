@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Integer> starredList = new ArrayList<>();
 
     public static SimpleCursorAdapter simpleCursorAdapter;
+    public static ListViewAdapter listViewAdapter;
     public static Cursor c;
 
     /**

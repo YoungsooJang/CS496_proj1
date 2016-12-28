@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,9 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class FragmentC extends Fragment {
 
@@ -26,7 +26,7 @@ public class FragmentC extends Fragment {
     }
 
     private ListView listView2;
-    public View row;
+    private ArrayList<String[]> messages;
 
     private static final int PERMISSIONS_REQUEST_READ_SMS = 100;
 
@@ -41,7 +41,7 @@ public class FragmentC extends Fragment {
         listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String number = (String)(((TextView) view.findViewById(android.R.id.text2)).getText());
+                String number = (String)(((TextView) view.findViewById(R.id.textViewl2)).getText());
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + number)));
             }
         });
@@ -57,6 +57,9 @@ public class FragmentC extends Fragment {
                     MainActivity.starredList.add((int) id);
                     Toast.makeText(getActivity(), "Starred!", Toast.LENGTH_SHORT).show();
                 }
+                MainActivity.listViewAdapter.notifyDataSetChanged();
+
+                Log.d("TEST", "**********************************" + MainActivity.starredList.toString());
 
                 return true;
             }
@@ -86,21 +89,19 @@ public class FragmentC extends Fragment {
         // Fetch Inbox SMS Message from Built-in Content Provider
         Cursor c = cr.query(inboxURI, reqCols, null, null, null);
 
-        // Attached Cursor with adapter and display in listview
-        final SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(
-                getActivity(),
-                android.R.layout.simple_list_item_2,
-                c,
-                new String[] {
-                        "body",
-                        "address"
-                },
-                new int[] {
-                        android.R.id.text1,
-                        android.R.id.text2
-                });
+        messages = new ArrayList<>();
+        String[] data;
+        while(c.moveToNext()) {
+            data = new String[3];
+            data[0] = c.getString(2);
+            data[1] = c.getString(1);
+            data[2] = Integer.toString(c.getInt(0));
+            messages.add(data);
+        }
+        c.close();
 
-        listView2.setAdapter(simpleCursorAdapter);
+        MainActivity.listViewAdapter = new ListViewAdapter(getActivity(), messages);
+        listView2.setAdapter(MainActivity.listViewAdapter);
     }
 
     @Override

@@ -60,6 +60,7 @@ public class FragmentD extends Fragment {
                             .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     MainActivity.starredList.remove(Integer.valueOf(itemId));
+                                    MainActivity.listViewAdapter.notifyDataSetChanged();
 
                                     if (!MainActivity.starredList.isEmpty()) {
                                         // Create Inbox box URI
