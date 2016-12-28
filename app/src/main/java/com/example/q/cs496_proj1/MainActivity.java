@@ -2,6 +2,7 @@ package com.example.q.cs496_proj1;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             simpleCursorAdapter = new SimpleCursorAdapter(
-                    getApplicationContext(),
+                    MainActivity.this,
                     android.R.layout.simple_list_item_2,
                     MainActivity.c,
                     new String[] {
