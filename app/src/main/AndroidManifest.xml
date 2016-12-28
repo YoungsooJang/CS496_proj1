@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.q.cs496_proj1">
 
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactDisplayActivity"></activity>
-        <activity android:name=".ImageSliderActivity"></activity>
+        <activity android:name=".ContactDisplayActivity" />
+        <activity android:name=".ImageSliderActivity" />
+        <activity android:name=".ImageViewerActivity"></activity>
     </application>
-    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
 
 </manifest>

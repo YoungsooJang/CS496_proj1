@@ -3,6 +3,7 @@ package com.example.q.cs496_proj1;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
@@ -19,6 +20,9 @@ public class ImageSliderActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         position = i.getExtras().getInt("id");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         GridViewAdapter gridViewAdapter = new GridViewAdapter(this);
         List<ImageView> images = new ArrayList();

@@ -38,6 +38,17 @@ public class ContactDisplayActivity extends AppCompatActivity {
             imageView1.setImageResource(picture);
         }
 
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(picture != 0) {
+                    Intent intent1 = new Intent(getApplicationContext(), ImageViewerActivity.class);
+                    intent1.putExtra("picture", picture);
+                    startActivity(intent1);
+                }
+            }
+        });
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
